@@ -1,49 +1,38 @@
-import 'package:flutter/cupertino.dart';
+// Exemple de page d'accueil avec une liste de stations
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<Home> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<Home> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Exemple de liste d'ID de stations et de noms de stations
+    const stations = [
+      {'id': '87313759', 'name': 'Abancourt'},
+      {'id': '87313874', 'name': 'Amiens'},
+      {'id': '87271007', 'name': 'Paris Gare du Nord'},
+      // Ajouter d'autres stations si nécessaire
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text('Stations'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: ListView.builder(
+        itemCount: stations.length,
+        itemBuilder: (context, index) {
+          final station = stations[index];
+          return ListTile(
+            title: Text(station['name']!),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/train_station',
+                arguments: station['id'],  // Pass stationId dynamically here
+              );
+            },
+          );
+        },
       ),
     );
   }

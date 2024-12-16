@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projet_gares/blocs/train_station_cubit.dart';
+import 'package:projet_gares/repository/train_station_repository.dart';
 import 'package:projet_gares/ui/screens/favorites.dart';
 import 'package:projet_gares/ui/screens/home.dart';
-import 'package:projet_gares/ui/screens/train_station.dart';
+import 'package:projet_gares/ui/screens/station_details.dart';
 
 void main() {
-  runApp(const MyApp());
+
+  final TrainStationCubit trainStationCubit = TrainStationCubit(TrainStationRepository());
+  runApp(
+      BlocProvider<TrainStationCubit>(
+          create: (_) => trainStationCubit,
+          child: const MyApp())
+      );
+
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const Home(title: 'Trains stations map',),
-        '/train_station': (context) => const TrainStation(),
+        '/station_details': (context) => const StationDetails(),
         '/favorites': (context) => const Favorites(),
       },
         initialRoute: '/'

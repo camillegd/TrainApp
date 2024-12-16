@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class TrainStation extends StatelessWidget {
-  const TrainStation({super.key});
+class StationDetails extends StatelessWidget {
+  const StationDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

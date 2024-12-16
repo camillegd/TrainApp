@@ -6,10 +6,12 @@ import 'package:projet_gares/ui/screens/favorites.dart';
 import 'package:projet_gares/ui/screens/home.dart';
 import 'package:projet_gares/ui/screens/train_station_details.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'blocs/arrivals_cubit.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: "../.env");
   runApp(const MyApp());
 }
 
@@ -27,12 +29,10 @@ class MyApp extends StatelessWidget {
           secondary: Color(0xFFEBEBD3),
           secondaryContainer: Color(0xFF8491A3),
           surface: Colors.white,
-          background: Colors.white,
           error: Colors.red,
           onPrimary: Colors.white,
           onSecondary: Colors.white,
           onSurface: Colors.black,
-          onBackground: Colors.black,
           onError: Colors.white,
           brightness: Brightness.light,
         ),

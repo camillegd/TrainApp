@@ -6,10 +6,9 @@ class ArrivalsRepository {
 
   ArrivalsRepository(this.stationId);
 
-  Future<List<Map<String, dynamic>>> fetchArrivals() async {
+  Future<List<Map<String, dynamic>>> fetchArrivals(token) async {
     final String url =
         'https://api.sncf.com/v1/coverage/sncf/stop_areas/stop_area:SNCF:$stationId/arrivals';
-    const String token = '9d9b8d59-e302-41c1-be38-e22bfd5a6f7f';
 
     final response = await http.get(
       Uri.parse(url),

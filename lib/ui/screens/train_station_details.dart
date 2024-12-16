@@ -16,6 +16,7 @@ class TrainStation extends StatefulWidget {
 
 class _TrainStationState extends State<TrainStation> {
   int _selectedIndex = 0;
+  bool _isFavorite = false;
 
   @override
   void initState() {
@@ -25,6 +26,12 @@ class _TrainStationState extends State<TrainStation> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
     });
   }
 
@@ -42,6 +49,18 @@ class _TrainStationState extends State<TrainStation> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Station'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: IconButton(
+              icon: Icon(
+                _isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: _isFavorite ? const Color(0xFF8B2635) : Colors.white,
+              ),
+              onPressed: _toggleFavorite,
+            ),
+          ),
+        ],
       ),
       body:  _selectedIndex == 0 ? DeparturesWidget(stationId: widget.stationId,) : ArrivalsWidget(stationId: widget.stationId,),
       bottomNavigationBar: BottomNavigationBar(

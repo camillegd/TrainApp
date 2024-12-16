@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:projet_gares/blocs/departures_cubit.dart';
+import 'package:projet_gares/repositories/arrivals_repository.dart';
+import 'package:projet_gares/repositories/departures_repository.dart';
 import 'package:projet_gares/ui/screens/favorites.dart';
 import 'package:projet_gares/ui/screens/home.dart';
-import 'package:projet_gares/ui/screens/train_station.dart';
+import 'package:projet_gares/ui/screens/train_station_details.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'blocs/arrivals_cubit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,27 +16,63 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return
-      MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: const ColorScheme(
+          primary: Color(0xFF8B2635),
+          primaryContainer: Color(0xFF8B2635),
+          secondary: Color(0xFFEBEBD3),
+          secondaryContainer: Color(0xFF8491A3),
+          surface: Colors.white,
+          background: Colors.white,
+          error: Colors.red,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Colors.black,
+          onBackground: Colors.black,
+          onError: Colors.white,
+          brightness: Brightness.light,
+        ),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF083D77),
+          foregroundColor: Colors.white,
+        ),
+        cardTheme: CardTheme(
+          color: Colors.white70,
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          displayMedium: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          displaySmall: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
       ),
       routes: {
         '/': (context) => const Home(),
         '/train_station': (context) {
           final stationId = ModalRoute.of(context)?.settings.arguments as String;
-          return TrainStation(stationId: stationId);
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => DeparturesCubit(DeparturesRepository(stationId)),
+              ),
+              BlocProvider(
+                create: (context) => ArrivalsCubit(ArrivalsRepository(stationId)),
+              ),
+            ],
+            child: TrainStation(stationId: stationId),
+          );
         },
         '/favorites': (context) => const Favorites(),
       },
-        initialRoute: '/',
+      initialRoute: '/',
     );
   }
 }
-
-

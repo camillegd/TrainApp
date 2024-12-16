@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        '/': (context) => const Home(title: 'Home',),
+        '/': (context) => const Home(title: 'Trains stations map',),
         '/train_station': (context) => const TrainStation(),
         '/favorites': (context) => const Favorites(),
       },

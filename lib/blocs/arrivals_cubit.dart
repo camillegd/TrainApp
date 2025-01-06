@@ -15,7 +15,6 @@ class ArrivalsCubit extends Cubit<List<Arrival>> {
       final arrivals = await repository.fetchArrivals(token!);
       emit(arrivals.map((json) => Arrival.fromJson(json)).toList());
     } catch (e) {
-      // Handle error
     }
   }
 }

@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/train_station.dart';
 import '../widgets/arrivals_widget.dart';
 import '../widgets/departures_widget.dart';
 
-class TrainStation extends StatefulWidget {
-  final String stationId;
+class TrainStationDetails extends StatefulWidget {
+  final TrainStation station;
 
   // Constructor with the required stationId parameter
-  TrainStation({super.key, required this.stationId});
+  TrainStationDetails({super.key, required this.station});
 
 
   @override
-  _TrainStationState createState() => _TrainStationState();
+  _TrainStationDetailsState createState() => _TrainStationDetailsState();
 }
 
-class _TrainStationState extends State<TrainStation> {
+class _TrainStationDetailsState extends State<TrainStationDetails> {
   int _selectedIndex = 0;
   bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
+    _loadFavoriteStatus();
   }
 
   void _onItemTapped(int index) {
@@ -29,9 +32,22 @@ class _TrainStationState extends State<TrainStation> {
     });
   }
 
-  void _toggleFavorite() {
+  void _toggleFavorite() async {
     setState(() {
       _isFavorite = !_isFavorite;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (_isFavorite) {
+      await prefs.setString('favorite_${widget.station.stationId}', widget.station.toJson());
+    } else {
+      await prefs.remove('favorite_${widget.station.stationId}');
+    }
+  }
+
+  void _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isFavorite = prefs.containsKey('favorite_${widget.station.stationId}');
     });
   }
 
@@ -62,7 +78,7 @@ class _TrainStationState extends State<TrainStation> {
           ),
         ],
       ),
-      body:  _selectedIndex == 0 ? DeparturesWidget(stationId: widget.stationId,) : ArrivalsWidget(stationId: widget.stationId,),
+      body:  _selectedIndex == 0 ? DeparturesWidget(stationId: widget.station.stationId,) : ArrivalsWidget(stationId: widget.station.stationId,),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

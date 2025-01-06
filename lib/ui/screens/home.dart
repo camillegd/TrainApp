@@ -42,7 +42,7 @@ class _HomePageState extends State<Home> {
           child: IconButton(
             icon: Icon(Icons.location_on, color: Colors.blue, size: 40),
             onPressed: () {
-              _showSnackBar('${station.name} (${station.shortLabel})', station.stationId);
+              _showSnackBar('${station.name} (${station.stationId})', station);
             },
           ),
         );
@@ -50,14 +50,14 @@ class _HomePageState extends State<Home> {
     });
   }
 
-  void _showSnackBar(String message, String stationId) {
+  void _showSnackBar(String message, TrainStation station) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         action: SnackBarAction(
           label: 'Details',
           onPressed: () {
-            Navigator.pushNamed(context, '/train_station', arguments: stationId);
+            Navigator.pushNamed(context, '/train_station', arguments: station);
           },
         ),
       ),
@@ -71,7 +71,7 @@ class _HomePageState extends State<Home> {
 
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        _showSnackBar('Les services de localisation sont désactivés', '');
+        _showSnackBar('Les services de localisation sont désactivés', TrainStation('', '', '', LatLng(0, 0)));
         return;
       }
 
@@ -79,13 +79,13 @@ class _HomePageState extends State<Home> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          _showSnackBar('Permissions de localisation refusées', '');
+          _showSnackBar('Permissions de localisation refusées', TrainStation('', '', '', LatLng(0, 0)));
           return;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
-        _showSnackBar('Permissions de localisation permanentemente refusées', '');
+        _showSnackBar('Permissions de localisation permanentemente refusées', TrainStation('', '', '', LatLng(0, 0)));
         return;
       }
 
@@ -113,7 +113,7 @@ class _HomePageState extends State<Home> {
         );
       });
     } catch (e) {
-      _showSnackBar('Impossible de récupérer la localisation : $e', '');
+      _showSnackBar('Impossible de récupérer la localisation : $e', TrainStation('', '', '', LatLng(0, 0)));
     }
   }
 
@@ -147,10 +147,30 @@ class _HomePageState extends State<Home> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getCurrentLocation,
-        child: Icon(Icons.my_location),
-        tooltip: 'Centrer sur ma position',
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              onPressed: _getCurrentLocation,
+              child: Icon(Icons.my_location),
+              tooltip: 'Centrer sur ma position',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 70.0),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/favorites');
+                },
+                child: Icon(Icons.favorite_border),
+                tooltip: 'Voir mes favoris',
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

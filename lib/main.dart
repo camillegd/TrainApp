@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projet_gares/blocs/departures_cubit.dart';
 import 'package:projet_gares/blocs/train_station_cubit.dart';
+import 'package:projet_gares/models/train_station.dart';
 import 'package:projet_gares/repositories/arrivals_repository.dart';
 import 'package:projet_gares/repositories/departures_repository.dart';
 import 'package:projet_gares/repositories/train_station_repository.dart';
@@ -65,17 +66,17 @@ class MyApp extends StatelessWidget {
       routes: {
         '/':  (context) => const Home(title: 'Trains stations map',),
         '/train_station': (context) {
-          final stationId = ModalRoute.of(context)?.settings.arguments as String;
+          final station = ModalRoute.of(context)?.settings.arguments as TrainStation;
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => DeparturesCubit(DeparturesRepository(stationId)),
+                create: (context) => DeparturesCubit(DeparturesRepository(station.stationId)),
               ),
               BlocProvider(
-                create: (context) => ArrivalsCubit(ArrivalsRepository(stationId)),
+                create: (context) => ArrivalsCubit(ArrivalsRepository(station.stationId)),
               ),
             ],
-            child: TrainStation(stationId: stationId),
+            child: TrainStationDetails(station: station),
           );
         },
         '/favorites': (context) => const Favorites(),

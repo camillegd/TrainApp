@@ -7,8 +7,7 @@ import '../../models/arrival.dart';
 class ArrivalsWidget extends StatefulWidget {
   final String stationId;
 
-  // Constructor with the required stationId parameter
-  ArrivalsWidget({super.key, required this.stationId});
+ const ArrivalsWidget({super.key, required this.stationId});
 
   @override
   _ArrivalsWidgetState createState() => _ArrivalsWidgetState();

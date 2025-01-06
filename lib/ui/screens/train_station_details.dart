@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/train_station.dart';
+import '../../services/train_station_service.dart';
 import '../widgets/arrivals_widget.dart';
 import '../widgets/departures_widget.dart';
 
 class TrainStationDetails extends StatefulWidget {
   final TrainStation station;
 
-  // Constructor with the required stationId parameter
-  TrainStationDetails({super.key, required this.station});
+  const TrainStationDetails({super.key, required this.station});
 
 
   @override
@@ -17,6 +17,7 @@ class TrainStationDetails extends StatefulWidget {
 }
 
 class _TrainStationDetailsState extends State<TrainStationDetails> {
+  final TrainStationService _service = TrainStationService();
   int _selectedIndex = 0;
   bool _isFavorite = false;
 
@@ -33,21 +34,16 @@ class _TrainStationDetailsState extends State<TrainStationDetails> {
   }
 
   void _toggleFavorite() async {
+    await _service.toggleFavorite(widget.station, !_isFavorite);
     setState(() {
       _isFavorite = !_isFavorite;
     });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (_isFavorite) {
-      await prefs.setString('favorite_${widget.station.stationId}', widget.station.toJson());
-    } else {
-      await prefs.remove('favorite_${widget.station.stationId}');
-    }
   }
 
   void _loadFavoriteStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final isFavorite = await _service.isFavorite(widget.station.stationId);
     setState(() {
-      _isFavorite = prefs.containsKey('favorite_${widget.station.stationId}');
+      _isFavorite = isFavorite;
     });
   }
 

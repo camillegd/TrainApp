@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import '../../models/train_station.dart';
+import '../../services/train_station_service.dart';
 
 class Favorites extends StatefulWidget {
   const Favorites({super.key});
@@ -12,6 +13,7 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
+  final TrainStationService _service = TrainStationService();
   List<TrainStation> _favoriteStations = [];
 
   @override
@@ -21,16 +23,7 @@ class _FavoritesState extends State<Favorites> {
   }
 
   void _loadFavoriteStations() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final keys = prefs.getKeys().where((key) => key.startsWith('favorite_')).toList();
-    final List<TrainStation> stations = [];
-    for (String key in keys) {
-      final String? stationJson = prefs.getString(key);
-      if (stationJson != null) {
-        final Map<String, dynamic> stationMap = jsonDecode(stationJson);
-        stations.add(TrainStation.fromJson(stationMap));
-      }
-    }
+    final stations = await _service.getFavoriteStations();
     setState(() {
       _favoriteStations = stations;
     });
@@ -43,21 +36,42 @@ class _FavoritesState extends State<Favorites> {
         title: const Text('Favoris'),
       ),
       body: _favoriteStations.isEmpty
-          ? const Center(child: Text('No favorites added'))
+          ? const Center(child: Text('Pas de gares ajoutées en favoris.'))
           : ListView.builder(
-        itemCount: _favoriteStations.length,
-        itemBuilder: (context, index) {
-          final station = _favoriteStations[index];
-          return ListTile(
-            title: Text(station.name),
-            subtitle: Text(station.shortLabel),
-            onTap: () {
-              Navigator.pushNamed(context, '/train_station', arguments: station);
-            },
-          );
-        },
-      ),
+              itemCount: _favoriteStations.length,
+              itemBuilder: (context, index) {
+                final station = _favoriteStations[index];
+                return Card(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/train_station',
+                          arguments: station);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            station.name,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text('Libellé court : ${station.shortLabel}'),
+                          Text('Latitude : ${station.location.latitude}'),
+                          Text('Longitude : ${station.location.longitude}'),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'favorites',
         onPressed: () {
           Navigator.pop(context, '/home');
         },

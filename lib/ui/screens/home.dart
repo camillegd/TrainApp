@@ -40,7 +40,7 @@ class _HomePageState extends State<Home> {
           height: 80.0,
           point: LatLng(station.location.latitude, station.location.longitude),
           child: IconButton(
-            icon: Icon(Icons.location_on, color: Colors.blue, size: 40),
+            icon: const Icon(Icons.location_on, color: Color(0xFF083D77), size: 40),
             onPressed: () {
               _showSnackBar('${station.name} (${station.stationId})', station);
             },
@@ -71,7 +71,7 @@ class _HomePageState extends State<Home> {
 
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        _showSnackBar('Les services de localisation sont désactivés', TrainStation('', '', '', LatLng(0, 0)));
+        _showSnackBar('Les services de localisation sont désactivés', const TrainStation('', '', '', LatLng(0, 0)));
         return;
       }
 
@@ -79,13 +79,13 @@ class _HomePageState extends State<Home> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          _showSnackBar('Permissions de localisation refusées', TrainStation('', '', '', LatLng(0, 0)));
+          _showSnackBar('Permissions de localisation refusées', const TrainStation('', '', '', LatLng(0, 0)));
           return;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
-        _showSnackBar('Permissions de localisation permanentemente refusées', TrainStation('', '', '', LatLng(0, 0)));
+        _showSnackBar('Permissions de localisation permanentemente refusées', const TrainStation('', '', '', LatLng(0, 0)));
         return;
       }
 
@@ -98,7 +98,7 @@ class _HomePageState extends State<Home> {
           width: 80.0,
           height: 80.0,
           point: LatLng(position.latitude, position.longitude),
-          child: Icon(Icons.my_location, color: Colors.green, size: 40),
+          child: const Icon(Icons.my_location, color: Colors.green, size: 40),
         );
 
         if (!markers.any((marker) =>
@@ -113,7 +113,7 @@ class _HomePageState extends State<Home> {
         );
       });
     } catch (e) {
-      _showSnackBar('Impossible de récupérer la localisation : $e', TrainStation('', '', '', LatLng(0, 0)));
+      _showSnackBar('Impossible de récupérer la localisation : $e', const TrainStation('', '', '', LatLng(0, 0)));
     }
   }
 
@@ -125,7 +125,7 @@ class _HomePageState extends State<Home> {
       ),
       body: FlutterMap(
         mapController: _mapController,
-        options: MapOptions(
+        options: const MapOptions(
           initialCenter: LatLng(48.8566, 2.3522),
           initialZoom: 10.0,
           minZoom: 3.0,
@@ -137,7 +137,7 @@ class _HomePageState extends State<Home> {
             userAgentPackageName: 'com.example.app',
           ),
           MarkerLayer(markers: markers),
-          RichAttributionWidget(
+          const RichAttributionWidget(
             attributions: [
               TextSourceAttribution(
                 'OpenStreetMap Contributors',
@@ -152,9 +152,10 @@ class _HomePageState extends State<Home> {
           Align(
             alignment: Alignment.bottomRight,
             child: FloatingActionButton(
+              heroTag: 'center_position',
               onPressed: _getCurrentLocation,
-              child: Icon(Icons.my_location),
               tooltip: 'Centrer sur ma position',
+              child: const Icon(Icons.my_location),
             ),
           ),
           Padding(
@@ -162,11 +163,12 @@ class _HomePageState extends State<Home> {
             child: Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                heroTag: 'favorites',
                 onPressed: () {
                   Navigator.pushNamed(context, '/favorites');
                 },
-                child: Icon(Icons.favorite_border),
                 tooltip: 'Voir mes favoris',
+                child: const Icon(Icons.favorite_border),
               ),
             ),
           ),

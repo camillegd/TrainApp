@@ -75,9 +75,7 @@ class _FavoritesState extends State<Favorites> {
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 8),
-                              Text('Libellé court : ${station.shortLabel}'),
-                              Text('Latitude : ${station.location.latitude}'),
-                              Text('Longitude : ${station.location.longitude}'),
+                              Text(station.shortLabel),
                             ],
                           ),
                           IconButton(

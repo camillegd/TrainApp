@@ -26,14 +26,29 @@ class _FavoritesState extends State<Favorites> {
     });
   }
 
+  void _removeFavorite(TrainStation station) async {
+    await _service.toggleFavorite(station, false);
+    _loadFavoriteStations();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favoris'),
+        centerTitle: true,
       ),
       body: _favoriteStations.isEmpty
-          ? const Center(child: Text('Pas de gares ajoutées en favoris.'))
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.train_outlined, size: 48, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text('Pas de gares ajoutées en favoris.'),
+                ],
+              ),
+            )
           : ListView.builder(
               itemCount: _favoriteStations.length,
               itemBuilder: (context, index) {
@@ -48,18 +63,30 @@ class _FavoritesState extends State<Favorites> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            station.name,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                station.name,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 8),
+                              Text('Libellé court : ${station.shortLabel}'),
+                              Text('Latitude : ${station.location.latitude}'),
+                              Text('Longitude : ${station.location.longitude}'),
+                            ],
                           ),
-                          const SizedBox(height: 8),
-                          Text('Libellé court : ${station.shortLabel}'),
-                          Text('Latitude : ${station.location.latitude}'),
-                          Text('Longitude : ${station.location.longitude}'),
+                          IconButton(
+                            icon: const Icon(Icons.delete,
+                                color: Color(0xFF8B2635)),
+                            onPressed: () {
+                              _removeFavorite(station);
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -72,7 +99,7 @@ class _FavoritesState extends State<Favorites> {
         onPressed: () {
           Navigator.pop(context, '/home');
         },
-        child: const Icon(Icons.train_outlined),
+        child: const Icon(Icons.map_outlined),
       ),
     );
   }

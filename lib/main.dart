@@ -6,7 +6,7 @@ import 'package:projet_gares/repositories/arrivals_repository.dart';
 import 'package:projet_gares/repositories/departures_repository.dart';
 import 'package:projet_gares/repositories/train_station_repository.dart';
 import 'package:projet_gares/ui/screens/favorites.dart';
-import 'package:projet_gares/ui/screens/home.dart';
+import 'package:projet_gares/ui/screens/map.dart';
 import 'package:projet_gares/ui/screens/train_station_details.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       routes: {
-        '/':  (context) => const Home(title: 'Trains stations map',),
+        '/':  (context) => const Map(),
         '/train_station': (context) {
           final station = ModalRoute.of(context)?.settings.arguments as TrainStation;
           return MultiBlocProvider(

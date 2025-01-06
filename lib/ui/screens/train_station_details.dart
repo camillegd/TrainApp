@@ -10,7 +10,6 @@ class TrainStationDetails extends StatefulWidget {
 
   const TrainStationDetails({super.key, required this.station});
 
-
   @override
   _TrainStationDetailsState createState() => _TrainStationDetailsState();
 }
@@ -59,7 +58,8 @@ class _TrainStationDetailsState extends State<TrainStationDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Station'),
+        title: Text(widget.station.name),
+        centerTitle: true,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -73,7 +73,27 @@ class _TrainStationDetailsState extends State<TrainStationDetails> {
           ),
         ],
       ),
-      body:  _selectedIndex == 0 ? DeparturesWidget(stationId: widget.station.stationId,) : ArrivalsWidget(stationId: widget.station.stationId,),
+      body: _selectedIndex == 0
+          ? DeparturesWidget(
+              stationId: widget.station.stationId,
+            )
+          : ArrivalsWidget(
+              stationId: widget.station.stationId,
+            ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 70.0),
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: FloatingActionButton(
+            heroTag: 'favorites',
+            onPressed: () {
+              Navigator.pushNamed(context, '/favorites');
+            },
+            tooltip: 'Voir mes favoris',
+            child: const Icon(Icons.favorite_border),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

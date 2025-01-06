@@ -49,7 +49,7 @@ class _MapPageState extends State<Map> {
             icon: const Icon(Icons.location_on,
                 color: Color(0xFF083D77), size: 40),
             onPressed: () {
-              _showSnackBar('${station.name} (${station.shortLabel})', station);
+              Navigator.pushNamed(context, '/train_station', arguments: station);
             },
           ),
         );
@@ -57,16 +57,10 @@ class _MapPageState extends State<Map> {
     });
   }
 
-  void _showSnackBar(String message, TrainStation station) {
+  void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        action: SnackBarAction(
-          label: 'Details',
-          onPressed: () {
-            Navigator.pushNamed(context, '/train_station', arguments: station);
-          },
-        ),
       ),
     );
   }
@@ -74,8 +68,7 @@ class _MapPageState extends State<Map> {
   Future<void> _getCurrentLocation() async {
     final position = await _service.getCurrentLocation();
     if (position == null) {
-      _showSnackBar('Unable to retrieve location',
-          const TrainStation('', '', '', LatLng(0, 0)));
+      _showSnackBar('Unable to retrieve location');
       return;
     }
 

@@ -34,6 +34,12 @@ class Home extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/favorites');
+        },
+        child: const Icon(Icons.favorite_border),
+      ),
     );
   }
 }

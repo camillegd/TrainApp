@@ -58,7 +58,7 @@ class _TrainStationDetailsState extends State<TrainStationDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.station.name),
+        title: Text(widget.station.stationId),
         centerTitle: true,
         actions: [
           Padding(

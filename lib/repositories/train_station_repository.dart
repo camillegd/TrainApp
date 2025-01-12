@@ -15,7 +15,13 @@ class TrainStationRepository {
 
         for (Map<String, dynamic> result in results){
           final trainStation = TrainStation.fromGeoJson(result);
-          final stationId = await fetchStationId(trainStation.shortLabel);
+          final id = await fetchStationId(trainStation.shortLabel);
+          String stationId;
+          if (id.contains(';')) {
+            stationId = id.split(';').last;
+          } else {
+            stationId = id;
+          }
           trainStations.add(TrainStation(stationId, trainStation.name, trainStation.shortLabel, trainStation.location));
         }
       }

@@ -11,7 +11,10 @@ class TrainStation {
   const TrainStation(this.stationId, this.name, this.shortLabel, this.location);
 
   factory TrainStation.fromJson(Map<String, dynamic> json) {
-    final String stationId = json['stationId'];
+    String stationId = json['stationId'];
+    if (stationId.contains(';')) {
+      stationId = stationId.split(';').last;
+    }
     final String name = json['nom'];
     final String shortLabel = json['libellecourt'];
     final double latitude = json['position_geographique']['lat'];

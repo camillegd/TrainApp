@@ -12,7 +12,7 @@ class DeparturesRepository {
 
     final response = await http.get(
       Uri.parse(url),
-      headers: {'Authorization': '$token'},
+      headers: {'Authorization': token},
     );
 
     if (response.statusCode == 200) {

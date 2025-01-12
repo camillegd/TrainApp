@@ -11,10 +11,10 @@ class TrainStationDetails extends StatefulWidget {
   const TrainStationDetails({super.key, required this.station});
 
   @override
-  _TrainStationDetailsState createState() => _TrainStationDetailsState();
+  TrainStationDetailsState createState() => TrainStationDetailsState();
 }
 
-class _TrainStationDetailsState extends State<TrainStationDetails> {
+class TrainStationDetailsState extends State<TrainStationDetails> {
   final TrainStationService _service = TrainStationService();
   int _selectedIndex = 0;
   bool _isFavorite = false;
@@ -58,7 +58,7 @@ class _TrainStationDetailsState extends State<TrainStationDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.station.stationId),
+        title: Text(widget.station.name),
         centerTitle: true,
         actions: [
           Padding(

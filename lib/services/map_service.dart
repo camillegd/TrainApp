@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:projet_gares/models/train_station_state.dart';
 
-import '../../models/train_station.dart';
 import '../../blocs/train_station_cubit.dart';
 
 class MapService {
@@ -8,9 +8,10 @@ class MapService {
 
   MapService(this.trainStationCubit);
 
-  Future<List<TrainStation>> fetchTrainStations() async {
+  Future<TrainStationState> fetchTrainStations() async {
     await trainStationCubit.getAllTrainStations();
-    return trainStationCubit.state;
+    final state = trainStationCubit.state;
+    return state;
   }
 
   Future<Position?> getCurrentLocation() async {
@@ -35,7 +36,9 @@ class MapService {
     }
 
     return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+      ),
     );
   }
 }

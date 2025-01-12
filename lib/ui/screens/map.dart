@@ -12,10 +12,10 @@ class Map extends StatefulWidget {
   const Map({super.key});
 
   @override
-  _MapPageState createState() => _MapPageState();
+  MapPageState createState() => MapPageState();
 }
 
-class _MapPageState extends State<Map> {
+class MapPageState extends State<Map> {
   final MapController _mapController = MapController();
   late MapService _service;
   List<Marker> markers = [];
@@ -30,11 +30,18 @@ class _MapPageState extends State<Map> {
   }
 
   void _fetchTrainStations() async {
-    final trainStations = await _service.fetchTrainStations();
-    setState(() {
-      _allStations = trainStations;
-      _addMarkers(trainStations);
-      _isLoading = false;
+    context.read<TrainStationCubit>().getAllTrainStations();
+    context.read<TrainStationCubit>().stream.listen((state) {
+      setState(() {
+        _isLoading = state.isLoading;
+        if (state.trainStations.isNotEmpty) {
+          _allStations = state.trainStations;
+          _addMarkers(state.trainStations);
+        }
+        if (state.error != null) {
+          _showSnackBar(state.error!);
+        }
+      });
     });
   }
 
@@ -117,12 +124,8 @@ class _MapPageState extends State<Map> {
   }
 
   double _calculateZoomLevel(LatLngBounds bounds) {
-    // Implement your logic to calculate the appropriate zoom level
-    // based on the bounds. This is a placeholder implementation.
     const maxZoom = 18.0;
     const minZoom = 6.0;
-    // Calculate zoom level based on the bounds size
-    // This is a simplified example, you may need a more complex calculation
     final latDiff = bounds.north - bounds.south;
     final lngDiff = bounds.east - bounds.west;
     final zoom = (maxZoom - minZoom) - (latDiff + lngDiff);

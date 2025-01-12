@@ -6,10 +6,10 @@ class Favorites extends StatefulWidget {
   const Favorites({super.key});
 
   @override
-  _FavoritesState createState() => _FavoritesState();
+  FavoritesState createState() => FavoritesState();
 }
 
-class _FavoritesState extends State<Favorites> {
+class FavoritesState extends State<Favorites> {
   final TrainStationService _service = TrainStationService();
   List<TrainStation> _favoriteStations = [];
 

@@ -8,13 +8,13 @@ class DeparturesWidget extends StatefulWidget {
   final String stationId;
 
   // Constructor with the required stationId parameter
-  DeparturesWidget({super.key, required this.stationId});
+  const DeparturesWidget({super.key, required this.stationId});
 
   @override
-  _DeparturesWidgetState createState() => _DeparturesWidgetState();
+  DeparturesWidgetState createState() => DeparturesWidgetState();
 }
 
-class _DeparturesWidgetState extends State<DeparturesWidget> {
+class DeparturesWidgetState extends State<DeparturesWidget> {
   @override
   void initState() {
     super.initState();

@@ -10,10 +10,10 @@ class ArrivalsWidget extends StatefulWidget {
  const ArrivalsWidget({super.key, required this.stationId});
 
   @override
-  _ArrivalsWidgetState createState() => _ArrivalsWidgetState();
+  ArrivalsWidgetState createState() => ArrivalsWidgetState();
 }
 
-class _ArrivalsWidgetState extends State<ArrivalsWidget> {
+class ArrivalsWidgetState extends State<ArrivalsWidget> {
   @override
   void initState() {
     super.initState();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SearchBarWidget extends StatelessWidget {
   final ValueChanged<String> onSearchChanged;
 
-  const SearchBarWidget({Key? key, required this.onSearchChanged}) : super(key: key);
+  const SearchBarWidget({super.key, required this.onSearchChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class SearchBarWidget extends StatelessWidget {
           ),
           filled: true,
           fillColor: Colors.white,
-          prefixIcon: Icon(Icons.search, color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          prefixIcon: const Icon(Icons.search, color: Colors.grey),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         ),
-        style: TextStyle(color: Colors.black, fontSize: 16.0),
+        style: const TextStyle(color: Colors.black, fontSize: 16.0),
         onChanged: onSearchChanged,
       ),
     );

@@ -95,7 +95,7 @@ class FavoritesState extends State<Favorites> {
       floatingActionButton: FloatingActionButton(
         heroTag: 'favorites',
         onPressed: () {
-          Navigator.pop(context, '/home');
+          Navigator.pushNamed(context, '/');
         },
         child: const Icon(Icons.map_outlined),
       ),

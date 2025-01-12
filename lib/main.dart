@@ -34,9 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme(
           primary: Color(0xFF8B2635),
-          primaryContainer: Color(0xFF8B2635),
           secondary: Color(0xFFEBEBD3),
-          secondaryContainer: Color(0xFF8491A3),
           surface: Colors.white,
           error: Colors.red,
           onPrimary: Colors.white,
@@ -56,11 +54,6 @@ class MyApp extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-        ),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          displayMedium: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          displaySmall: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
       routes: {

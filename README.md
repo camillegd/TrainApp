@@ -31,7 +31,7 @@ Make sure to replace `your_api_token_here` with the actual token you received fr
     ```bash
     git clone https://github.com/camillegd/TrainApp.git
     ```
-2. **Navigate to the Project Directory**: Make sure to have all the dependencies installed by running the following command:
+2. **Navigate to the Project Directory**: Go to the directory of your project make sure to have all the dependencies installed by running the following command:
     ```bash
     flutter pub get
     ```

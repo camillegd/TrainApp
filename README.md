@@ -25,3 +25,15 @@ To connect to the Train Station API, you need to request an API token. Follow th
     ```
 
 Make sure to replace `your_api_token_here` with the actual token you received from the API provider.
+
+## Run the App
+1. **Clone the Repository**: Run the following command to clone the repository:
+    ```bash
+    git clone https://github.com/camillegd/TrainApp.git
+    ```
+2. **Navigate to the Project Directory**: Make sure to have all the dependencies installed by running the following command:
+    ```bash
+    flutter pub get
+    ```
+3. **Launch the App**: Launch the app with the Chrome(web) emulator. Do not launch the app with the mobile emulator.
+    
